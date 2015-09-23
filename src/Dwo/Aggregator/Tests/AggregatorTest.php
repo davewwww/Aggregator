@@ -5,28 +5,9 @@ namespace Dwo\Aggregator\Tests;
 use Dwo\Aggregator\Aggregator;
 use Dwo\Aggregator\Collector\Collector;
 use Dwo\Aggregator\Collector\IdCollector;
-use Dwo\Aggregator\Merger;
 
 class AggregatorTest extends \PHPUnit_Framework_TestCase
 {
-    public function testAggregateA()
-    {
-//        $collector = new Collector(array('country'));
-//        $collector->addEntry(['country' => 'DE', 'counts'=>1]);
-//        $collector->addEntry(['country' => 'DE', 'counts'=>2]);
-//
-//        $aggregate = Aggregator::aggregate($collector)->getEntryByKey('DE');
-//
-//        print_r($aggregate->getData());
-
-        $origin = ['counts' => 1];
-        $merge = ['counts' => 2];
-
-        Merger::merge($origin, $merge);
-
-        print_r($origin);
-    }
-
     public function testAggregate()
     {
         $collector = new Collector(array('country'));
