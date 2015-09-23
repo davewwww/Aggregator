@@ -45,7 +45,7 @@ class Merger
             self::mergeAgg($origin, $merge, $saveKeys, $idKey);
         } elseif (16 === $typeOne && 4 === $typeTwo) {
             self::mergePreToAgg($origin, $merge, $saveKeys, $idKey);
-        } elseif (8 <= $mergeType) {
+        } elseif (4 <= $typeOne && 4 <= $typeTwo) {
             self::mergePre($origin, $merge, $saveKeys, $idKey);
         } elseif (2 === $mergeType) {
             self::mergeArrays($origin, $merge, $saveKeys);

@@ -168,4 +168,15 @@ class MergerTest extends \PHPUnit_Framework_TestCase
 
         self::assertEquals(['count' => 3], $origin);
     }
+
+    /**
+     * @expectedException \Dwo\Aggregator\Exception\AggregatorException
+     */
+    public function testError()
+    {
+        $origin = new Aggregate(new GroupKey([]));
+        $merge = ['count' => 1];
+
+        Merger::merge($origin, $merge);
+    }
 }
