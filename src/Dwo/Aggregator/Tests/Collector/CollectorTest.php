@@ -48,4 +48,16 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
         }
         self::assertEquals(2, $i);
     }
+
+    /**
+     * @expectedException \Dwo\Aggregator\Exception\AggregatorException
+     */
+    public function testUnique()
+    {
+        $collector = new Collector(array('country'));
+        $collector->setUnique(true);
+
+        $collector->addEntry(['country' => 'DE']);
+        $collector->addEntry(['country' => 'DE']);
+    }
 }

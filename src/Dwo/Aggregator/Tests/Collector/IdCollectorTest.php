@@ -22,6 +22,15 @@ class IdCollectorTest extends \PHPUnit_Framework_TestCase
         self::assertEquals($data, $collector->getById(1)->getData());
     }
 
+    public function testGetIds()
+    {
+        $collector = new IdCollector(array('country'), 'id');
+        $collector->addEntry(['id' => '321', 'country' => 'DE', 'sum' => 1]);
+
+        self::assertCount(1, $collector->getIds());
+        self::assertArrayHasKey('321', $collector->getIds());
+    }
+
     public function testExtendsGroupedCollector()
     {
         $collector = new IdCollector(array('country'), 'id');
