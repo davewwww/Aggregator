@@ -12,7 +12,7 @@ use Dwo\Aggregator\Model\PreAggregate;
 class IdCollector extends Collector
 {
     /**
-     * @var int|null
+     * @var string
      */
     protected $idKey;
 
@@ -22,8 +22,8 @@ class IdCollector extends Collector
     protected $idEntries;
 
     /**
-     * @param array       $groupKeys
-     * @param string|null $idKey
+     * @param array  $groupKeys
+     * @param string $idKey
      */
     public function __construct(array $groupKeys, $idKey)
     {
@@ -33,7 +33,7 @@ class IdCollector extends Collector
     }
 
     /**
-     * @return int|null
+     * @return string
      */
     public function getIdKey()
     {

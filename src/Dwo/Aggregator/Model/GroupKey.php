@@ -44,7 +44,7 @@ class GroupKey
         $keys = [];
         foreach ($groupKeys as $key) {
             $value = SimpleAccessor::getValueFromPath($data, $key);
-            $keys[$key] = $value = !is_scalar($value) ? json_encode($value) : $value;
+            $keys[$key] = !is_scalar($value) ? json_encode($value) : $value;
         }
 
         return new GroupKey($keys);

@@ -16,10 +16,10 @@ class Merger
     /**
      * merges Aggregate+Aggregate | Aggregate+PreAggregate | PreAggregate+PreAggregate | array()+array()
      *
-     * @param Aggregate|PreAggregate|array $origin
-     * @param Aggregate|PreAggregate|array $merge
-     * @param array                        $saveKeys
-     * @param string|null                  $idKey
+     * @param mixed       $origin Aggregate|PreAggregate|array
+     * @param mixed       $merge  Aggregate|PreAggregate|array
+     * @param array       $saveKeys
+     * @param string|null $idKey
      */
     public static function merge(&$origin, $merge, array $saveKeys = [], $idKey = null)
     {
@@ -42,9 +42,11 @@ class Merger
         $mergeType = $typeOne + $typeTwo;
 
         if (32 === $mergeType) {
-            self::mergeAgg($origin, $merge, $saveKeys, $idKey);
+            self::mergePre($origin, $merge, $saveKeys, $idKey);
+            self::mergeAgg($origin, $merge);
         } elseif (16 === $typeOne && 4 === $typeTwo) {
-            self::mergePreToAgg($origin, $merge, $saveKeys, $idKey);
+            self::mergePre($origin, $merge, $saveKeys, $idKey);
+            self::mergePreToAgg($origin, $merge);
         } elseif (4 <= $typeOne && 4 <= $typeTwo) {
             self::mergePre($origin, $merge, $saveKeys, $idKey);
         } elseif (2 === $mergeType) {
@@ -57,13 +59,9 @@ class Merger
     /**
      * @param Aggregate   $origin
      * @param Aggregate   $merge
-     * @param array       $saveKeys
-     * @param string|null $idKey
      */
-    private static function mergeAgg(Aggregate $origin, Aggregate $merge, array $saveKeys = [], $idKey = null)
+    private static function mergeAgg(Aggregate $origin, Aggregate $merge)
     {
-        self::mergePre($origin, $merge, $saveKeys, $idKey);
-
         foreach ($merge->getOriginIds() as $id) {
             $origin->addOriginId($id);
         }
@@ -72,13 +70,9 @@ class Merger
     /**
      * @param Aggregate    $origin
      * @param PreAggregate $merge
-     * @param array        $saveKeys
-     * @param string|null  $idKey
      */
-    private static function mergePreToAgg(Aggregate $origin, PreAggregate $merge, array $saveKeys = [], $idKey = null)
+    private static function mergePreToAgg(Aggregate $origin, PreAggregate $merge)
     {
-        self::mergePre($origin, $merge, $saveKeys, $idKey);
-
         if (null !== $id = $merge->getId()) {
             $origin->addOriginId($id);
         }
