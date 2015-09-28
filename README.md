@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/davewwww/Aggregator.svg)](https://travis-ci.org/davewwww/Aggregator) [![Coverage Status](https://coveralls.io/repos/davewwww/Aggregator/badge.svg)](https://coveralls.io/r/davewwww/Aggregator)
+[![Build Status](https://travis-ci.org/davewwww/Aggregator.svg)](https://travis-ci.org/davewwww/Aggregator) [![Coverage Status](https://coveralls.io/repos/davewwww/Aggregator/badge.svg)](https://coveralls.io/r/davewwww/Aggregator) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/davewwww/Aggregator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/davewwww/Aggregator/?branch=master)
 
 Aggregator
 ----------
