@@ -3,6 +3,7 @@
 namespace Dwo\Aggregator\Tests\Collector;
 
 use Dwo\Aggregator\Collector\Collector;
+use Dwo\Aggregator\Model\GroupSet;
 
 class CollectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,8 +43,8 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
         $collector->addEntry(['country' => 'DE']);
         $collector->addEntry(['country' => 'AT']);
 
-        $i=0;
-        foreach($collector as $e) {
+        $i = 0;
+        foreach ($collector as $e) {
             ++$i;
         }
         self::assertEquals(2, $i);
@@ -59,5 +60,19 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
 
         $collector->addEntry(['country' => 'DE']);
         $collector->addEntry(['country' => 'DE']);
+    }
+
+    public function testGroupSet()
+    {
+        $collector = new Collector(array('country'));
+        $collector->addGroupSet('country', new GroupSet(['DE', 'AT'], 'ROW'));
+
+        $collector->addEntry(['country' => 'DE']);
+        $collector->addEntry(['country' => 'AT']);
+        $collector->addEntry(['country' => 'CH']);
+        $collector->addEntry(['country' => 'BR']);
+
+        self::assertCount(3, $collector->getEntries());
+        self::assertEquals(['DE', 'AT', 'ROW'], array_keys($collector->getEntries()));
     }
 }

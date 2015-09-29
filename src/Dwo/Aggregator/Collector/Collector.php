@@ -5,6 +5,7 @@ namespace Dwo\Aggregator\Collector;
 use Dwo\Aggregator\Exception\AggregatorException;
 use Dwo\Aggregator\Model\EntriesTrait;
 use Dwo\Aggregator\Model\GroupKey;
+use Dwo\Aggregator\Model\GroupSet;
 use Dwo\Aggregator\Model\PreAggregate;
 use Dwo\Aggregator\Model\PreAggregateGroup;
 
@@ -21,6 +22,11 @@ class Collector implements \Iterator
      * @var array
      */
     protected $groupKeys;
+
+    /**
+     * @var GroupSet[]|null
+     */
+    protected $groupSets;
 
     /**
      * @var bool
@@ -52,6 +58,14 @@ class Collector implements \Iterator
         $this->unique = $unique;
     }
 
+    /**
+     * @param string   $key
+     * @param GroupSet $groupSets
+     */
+    public function addGroupSet($key, GroupSet $groupSets)
+    {
+        $this->groupSets[$key] = $groupSets;
+    }
 
     /**
      * :TODO: maybe count key instead of $inc
@@ -65,13 +79,22 @@ class Collector implements \Iterator
             $entry = new PreAggregate($entry, null, $inc);
         }
 
+        if (null !== $this->groupSets) {
+            $data = $entry->getData();
+            foreach ($this->groupSets as $key => $groupSet) {
+                if (isset($data[$key])) {
+                    $data[$key] = $groupSet->getValue($data[$key]);
+                }
+            }
+            $entry->setData($data);
+        }
+
         $group = GroupKey::create($entry->getData(), $this->getGroupKeys());
         $key = (string) $group;
 
         if (!isset($this->entries[$key])) {
             $this->entries[$key] = new PreAggregateGroup($group);
-        }
-        elseif($this->unique) {
+        } elseif ($this->unique) {
             throw new AggregatorException(sprintf('there is already a entry for this group: %s', $key));
         }
 

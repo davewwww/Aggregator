@@ -2,6 +2,8 @@
 
 namespace Dwo\Aggregator\Model;
 
+use Dwo\Aggregator\Dumper;
+
 /**
  * Class AggregateGroup
  *
@@ -17,5 +19,13 @@ class AggregateGroup implements \Iterator
     public function addAggregate(Aggregate $aggregate)
     {
         $this->entries[(string) $aggregate->getGroup()] = $aggregate;
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return Dumper::toArray($this);
     }
 }

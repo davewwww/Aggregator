@@ -20,4 +20,16 @@ class AggregateGroupTest extends \PHPUnit_Framework_TestCase
         }
         self::assertEquals(2, $i);
     }
+
+    public function testToArray()
+    {
+        $aggregateGroup = new AggregateGroup();
+        $aggregateGroup->addAggregate(new Aggregate(new GroupKey(['foo' => 'bar'])));
+        $aggregateGroup->addAggregate(new Aggregate(new GroupKey(['foo' => 'lorem'])));
+
+        $dump = $aggregateGroup->toArray();
+
+        self::assertInternalType('array', $dump);
+        self::assertCount(2, $dump);
+    }
 }
