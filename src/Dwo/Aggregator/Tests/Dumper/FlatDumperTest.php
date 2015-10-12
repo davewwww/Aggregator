@@ -2,12 +2,12 @@
 
 namespace Dwo\Aggregator\Tests\Dumper;
 
-use Dwo\Aggregator\Dumper\AggregateGroupDumper;
+use Dwo\Aggregator\Dumper\FlatDumper;
 use Dwo\Aggregator\Model\Aggregate;
 use Dwo\Aggregator\Model\AggregateGroup;
 use Dwo\Aggregator\Model\GroupKey;
 
-class AggregateGroupDumperTest extends \PHPUnit_Framework_TestCase
+class FlatDumperTest extends \PHPUnit_Framework_TestCase
 {
     public function testToArray()
     {
@@ -17,7 +17,7 @@ class AggregateGroupDumperTest extends \PHPUnit_Framework_TestCase
         $agg1->setData(['a' => 1]);
         $agg2->setData(['b' => 1]);
 
-        $dump = AggregateGroupDumper::toArray($aggregateGroup);
+        $dump = FlatDumper::toArray($aggregateGroup);
 
         self::assertInternalType('array', $dump);
         self::assertCount(2, $dump);

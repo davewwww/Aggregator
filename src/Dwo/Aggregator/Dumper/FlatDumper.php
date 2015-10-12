@@ -2,16 +2,12 @@
 
 namespace Dwo\Aggregator\Dumper;
 
-use Dwo\Aggregator\Model\Aggregate;
-use Dwo\Aggregator\Model\AggregateGroup;
-use Dwo\Aggregator\Model\PreAggregate;
-
 /**
- * Class AggregateGroupDumper
+ * Class FlatDumper
  *
  * @author Dave Www <davewwwo@gmail.com>
  */
-class AggregateGroupDumper
+class FlatDumper
 {
     /**
      * @param \Iterator $group
@@ -22,7 +18,6 @@ class AggregateGroupDumper
     {
         $dump = [];
 
-        /** @var PreAggregate $aggregate */
         foreach ($group as $id => $aggregate) {
             $dump[$id] = $aggregate->getData();
         }

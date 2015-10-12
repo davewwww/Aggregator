@@ -2,7 +2,7 @@
 
 namespace Dwo\Aggregator\Collector;
 
-use Dwo\Aggregator\Dumper\CollectorDumper;
+use Dwo\Aggregator\Dumper\DeepDumper;
 use Dwo\Aggregator\Exception\AggregatorException;
 use Dwo\Aggregator\Model\EntriesTrait;
 use Dwo\Aggregator\Model\GroupKey;
@@ -107,6 +107,6 @@ class Collector implements \Iterator
      */
     public function toArray()
     {
-        return CollectorDumper::toArray($this);
+        return DeepDumper::toArray($this);
     }
 }
