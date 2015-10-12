@@ -2,6 +2,7 @@
 
 namespace Dwo\Aggregator\Collector;
 
+use Dwo\Aggregator\Dumper\CollectorDumper;
 use Dwo\Aggregator\Exception\AggregatorException;
 use Dwo\Aggregator\Model\EntriesTrait;
 use Dwo\Aggregator\Model\GroupKey;
@@ -99,5 +100,13 @@ class Collector implements \Iterator
         }
 
         $this->entries[$key]->addEntry($entry);
+    }
+
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return CollectorDumper::toArray($this);
     }
 }

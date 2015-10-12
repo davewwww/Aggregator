@@ -2,7 +2,7 @@
 
 namespace Dwo\Aggregator\Model;
 
-use Dwo\Aggregator\Dumper;
+use Dwo\Aggregator\Dumper\AggregateGroupDumper;
 
 /**
  * Class AggregateGroup
@@ -26,6 +26,6 @@ class AggregateGroup implements \Iterator
      */
     public function toArray()
     {
-        return Dumper::toArray($this);
+        return AggregateGroupDumper::toArray($this);
     }
 }

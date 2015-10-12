@@ -13,23 +13,19 @@ $collector->addEntry(['country' => 'AT', 'counts'=>3]);
 
 $aggregationGroup = Aggregator::aggregate($collector);
 
-$aggregateDE = $aggregationGroup->getEntryByKey('DE');
-$aggregateAT = $aggregationGroup->getEntryByKey('AT');
-
-print_r($aggregateDE->getData());
-print_r($aggregateAT->getData());
+print_r($aggregationGroup->toArray());
 ```
 
 ```php
-Array
-(
-    [country] => DE
-    [counts] => 3
-)
-Array
-(
-    [country] => AT
-    [counts] => 5
+Array (
+    [DE] => Array (
+        [country] => DE
+        [counts] => 3
+    )
+    [AT] => Array (
+        [country] => AT
+        [counts] => 5
+    )
 )
 ```
 

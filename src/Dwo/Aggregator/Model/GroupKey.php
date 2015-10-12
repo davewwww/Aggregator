@@ -21,7 +21,6 @@ class GroupKey
      */
     public function __construct(array $keys)
     {
-        ksort($keys);
         $this->keys = $keys;
     }
 

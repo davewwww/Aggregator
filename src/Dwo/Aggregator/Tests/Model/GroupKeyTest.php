@@ -13,11 +13,11 @@ class GroupKeyTest extends \PHPUnit_Framework_TestCase
         self::assertEquals('bar', (string) $group);
     }
 
-    public function testSeveralKeysSorted()
+    public function testSeveralKeys()
     {
         $group = new GroupKey(['lorem' => 'ipsum', 'foo' => 'bar']);
         self::assertEquals(['foo' => 'bar', 'lorem' => 'ipsum'], $group->getKeys());
-        self::assertEquals('bar_ipsum', (string) $group);
+        self::assertEquals('ipsum_bar', (string) $group);
     }
 
     public function testCreate()

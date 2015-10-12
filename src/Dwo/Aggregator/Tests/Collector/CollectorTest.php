@@ -75,4 +75,17 @@ class CollectorTest extends \PHPUnit_Framework_TestCase
         self::assertCount(3, $collector->getEntries());
         self::assertEquals(['DE', 'AT', 'ROW'], array_keys($collector->getEntries()));
     }
+
+    public function testToArray()
+    {
+        $collector = new Collector(array('country'));
+        $collector->addEntry(['country' => 'DE']);
+        $collector->addEntry(['country' => 'AT']);
+        $collector->addEntry(['country' => 'DE']);
+
+        $dump = $collector->toArray();
+
+        self::assertInternalType('array', $dump);
+        self::assertCount(2, $dump);
+    }
 }
