@@ -169,6 +169,34 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['count' => 3], $origin);
     }
 
+    public function testArraysSeveralAndNull()
+    {
+        $origin = ['count' => 1];
+        $merges = [];
+        $merges[] = ['count' => 1];
+        $merges[] = ['count' => null];
+        $merges[] = ['count' => 1];
+        $merges[] = ['count' => 1];
+
+        foreach($merges as $merge) {
+            Merger::merge($origin, $merge);
+        }
+
+        self::assertEquals(['count' => 4], $origin);
+    }
+
+    public function testArraysSeveralAndNullAtStart()
+    {
+        $origin = ['count' => null];
+        $merge1 = ['count' => 1];
+        $merge2 = ['count' => 1];
+
+        Merger::merge($origin, $merge1);
+        Merger::merge($origin, $merge2);
+
+        self::assertEquals(['count' => 2], $origin);
+    }
+
     /**
      * @expectedException \Dwo\Aggregator\Exception\AggregatorException
      */

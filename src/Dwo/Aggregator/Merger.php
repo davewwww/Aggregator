@@ -57,8 +57,8 @@ class Merger
     }
 
     /**
-     * @param Aggregate   $origin
-     * @param Aggregate   $merge
+     * @param Aggregate $origin
+     * @param Aggregate $merge
      */
     private static function mergeAgg(Aggregate $origin, Aggregate $merge)
     {
@@ -125,7 +125,9 @@ class Merger
                     break;
 
                 default:
-                    $dataOrigin[$key] = $value;
+                    if (null === $dataOrigin[$key]) {
+                        $dataOrigin[$key] = $value;
+                    }
                     break;
             }
         }
