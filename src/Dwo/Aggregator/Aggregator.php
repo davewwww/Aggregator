@@ -31,6 +31,7 @@ class Aggregator
             foreach ($preAggregateGroup as $preAggregate) {
                 Merger::merge($aggregate, $preAggregate, $saveKeys, $idKey);
             }
+            Operator::operation($aggregate, $saveKeys);
         }
 
         return $group;

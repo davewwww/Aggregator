@@ -5,6 +5,7 @@ namespace Dwo\Aggregator\Tests;
 use Dwo\Aggregator\Aggregator;
 use Dwo\Aggregator\Collector\Collector;
 use Dwo\Aggregator\Collector\IdCollector;
+use Dwo\Aggregator\Operator;
 
 class AggregatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -61,6 +62,27 @@ class AggregatorTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['xid' => 1, 'country' => 'DE', 'sum' => 3], $aggDE->getData());
         $aggDE = $aggGroup->getEntryByKey('AT');
         self::assertEquals(['xid' => 2, 'country' => 'AT', 'sum' => 5], $aggDE->getData());
+    }
+
+    public function testAggregateWithOperator()
+    {
+        $collector = new Collector([]);
+        $collector->addEntry(['amount' => 1]);
+        $collector->addEntry(['amount' => 2]);
+        $collector->addEntry(['amount' => 3]);
+        $collector->addEntry(['amount' => 3]);
+        $collector->addEntry(['amount' => 3]);
+        $collector->addEntry(['amount' => 7]);
+        $collector->addEntry(['amount' => 100]);
+
+        $agg = Aggregator::aggregate($collector, array('amount' => Operator::MEAN));
+        self::assertEquals(['amount' => 17.0], current($agg->toArray()));
+
+        $agg = Aggregator::aggregate($collector, array('amount' => Operator::MEAN_HARMONIC));
+        self::assertEquals(['amount' => 2.6], current($agg->toArray()), null, 0.1);
+
+        $agg = Aggregator::aggregate($collector, array('amount' => Operator::MEDIAN));
+        self::assertEquals(['amount' => 3], current($agg->toArray()));
     }
 
     public function testAggregateWithOriginIds()

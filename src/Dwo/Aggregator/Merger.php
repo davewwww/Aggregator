@@ -111,17 +111,28 @@ class Merger
             }
 
             $mergeable = !in_array($key, $saveKeys);
+            $operation = isset($saveKeys[$key]);
 
             switch (true) {
-                case is_numeric($value) && $mergeable:
+                case is_numeric($value) && $mergeable && !$operation:
                     $dataOrigin[$key] += $value;
                     break;
 
-                case is_array($value) && $mergeable:
+                case is_array($value) && $mergeable && !$operation:
                     if (null === $dataOrigin[$key]) {
                         $dataOrigin[$key] = [];
                     }
                     self::mergeArrays($dataOrigin[$key], $value);
+                    break;
+
+                case $mergeable && $operation:
+                    if (null === $dataOrigin[$key]) {
+                        $dataOrigin[$key] = [];
+                    }
+                    elseif(!is_array($dataOrigin[$key])) {
+                        $dataOrigin[$key] = array($dataOrigin[$key]);
+                    }
+                    $dataOrigin[$key][] = $value;
                     break;
 
                 default:

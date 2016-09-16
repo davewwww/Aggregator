@@ -6,6 +6,7 @@ use Dwo\Aggregator\Merger;
 use Dwo\Aggregator\Model\Aggregate;
 use Dwo\Aggregator\Model\GroupKey;
 use Dwo\Aggregator\Model\PreAggregate;
+use Dwo\Aggregator\Operator;
 
 class MergerTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,6 +30,18 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         Merger::merge($origin, $merge, ['xid']);
 
         self::assertEquals(['count' => 2, 'xid' => 1], $origin->getData());
+    }
+
+    public function testAggregatesWithOperator()
+    {
+        $origin = new Aggregate(new GroupKey([]));
+        $origin->setData(['count' => 2, 'amount' => 3]);
+        $merge = new Aggregate(new GroupKey([]));
+        $merge->setData(['count' => 2, 'amount' => 5]);
+
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['count' => 4, 'amount' => [3, 5]], $origin->getData());
     }
 
     public function testAggregatesWithOriginIds()
@@ -88,6 +101,16 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['count' => 2, 'xid' => 1], $origin->getData());
     }
 
+    public function testPreAggregatesWithOperator()
+    {
+        $origin = new PreAggregate(['count' => 2, 'amount' => 3]);
+        $merge = new PreAggregate(['count' => 2, 'amount' => 5]);
+
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['count' => 4, 'amount' => [3, 5]], $origin->getData());
+    }
+
     public function testPreAggregatesWithIdKey()
     {
         $origin = new PreAggregate(['count' => 1, 'id' => 1]);
@@ -124,6 +147,17 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['count' => 4], $origin->getData());
     }
 
+    public function testArregateWithPreAggregatesWithOperator()
+    {
+        $origin = new Aggregate(new GroupKey([]));
+        $origin->setData(['count' => 2, 'amount' => 3]);
+        $merge = new PreAggregate(['count' => 2, 'amount' => 5]);
+
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['count' => 4, 'amount' => [3, 5]], $origin->getData());
+    }
+
     public function testArregateWithPreAggregatesWithId()
     {
         $origin = new Aggregate(new GroupKey([]));
@@ -146,7 +180,6 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['count' => 2, 'sum' => 4, 'counts' => ['a' => 4], 'foo' => 'bar'], $origin);
     }
 
-
     public function testArraysWithSaveKey()
     {
         $origin = ['count' => 1, 'xid' => '2'];
@@ -155,6 +188,16 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         Merger::merge($origin, $merge, ['xid']);
 
         self::assertEquals(['count' => 2, 'xid' => '2'], $origin);
+    }
+
+    public function testArrayWithOperator()
+    {
+        $origin = ['count' => 2, 'amount' => 3];
+        $merge = ['count' => 2, 'amount' => 5];
+
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['count' => 4, 'amount' => [3, 5]], $origin);
     }
 
     public function testArraysSeveral()
@@ -178,7 +221,7 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         $merges[] = ['count' => 1];
         $merges[] = ['count' => 1];
 
-        foreach($merges as $merge) {
+        foreach ($merges as $merge) {
             Merger::merge($origin, $merge);
         }
 
@@ -207,4 +250,5 @@ class MergerTest extends \PHPUnit_Framework_TestCase
 
         Merger::merge($origin, $merge);
     }
+
 }
