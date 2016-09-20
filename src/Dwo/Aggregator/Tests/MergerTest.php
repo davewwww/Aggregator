@@ -200,6 +200,21 @@ class MergerTest extends \PHPUnit_Framework_TestCase
         self::assertEquals(['count' => 4, 'amount' => [3, 5]], $origin);
     }
 
+    public function testArrayWithOperatorValueIsAlreadyArray()
+    {
+        $origin = ['amount' => [2, 5]];
+        $merge = ['amount' => 7];
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['amount' => [2, 5, 7]], $origin);
+
+        $origin = ['amount' => 2];
+        $merge = ['amount' => [5, 7]];
+        Merger::merge($origin, $merge, ['amount' => Operator::MEAN]);
+
+        self::assertEquals(['amount' => [2, 5, 7]], $origin);
+    }
+
     public function testArraysSeveral()
     {
         $origin = ['count' => 1];

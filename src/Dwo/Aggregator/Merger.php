@@ -128,11 +128,14 @@ class Merger
                 case $mergeable && $operation:
                     if (null === $dataOrigin[$key]) {
                         $dataOrigin[$key] = [];
-                    }
-                    elseif(!is_array($dataOrigin[$key])) {
+                    } elseif (!is_array($dataOrigin[$key])) {
                         $dataOrigin[$key] = array($dataOrigin[$key]);
                     }
-                    $dataOrigin[$key][] = $value;
+                    if (is_array($value)) {
+                        $dataOrigin[$key] = array_merge($dataOrigin[$key], $value);
+                    } else {
+                        $dataOrigin[$key][] = $value;
+                    }
                     break;
 
                 default:

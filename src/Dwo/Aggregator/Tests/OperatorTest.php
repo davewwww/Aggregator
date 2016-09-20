@@ -25,4 +25,14 @@ class OperatorTest extends \PHPUnit_Framework_TestCase
         Operator::operation($aggregate, array('amount' => Operator::MEDIAN));
         self::assertEquals(['amount' => 3], $aggregate->getData());
     }
+
+    public function testAggregateWithOperatorEmptyValue()
+    {
+        $origin = new Aggregate(new GroupKey([]));
+        $origin->setData(['amount' => []]);
+
+        $aggregate = clone $origin;
+        Operator::operation($aggregate, array('amount' => Operator::MEAN));
+        self::assertEquals(['amount' => 0], $aggregate->getData());;
+    }
 }

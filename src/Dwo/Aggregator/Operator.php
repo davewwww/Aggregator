@@ -32,6 +32,18 @@ class Operator
         }
 
         foreach ($operations as $key => $operation) {
+            if (!count($data[$key])) {
+                switch ($operation) {
+                    default:
+                    case self::MEAN:
+                    case self::MEAN_HARMONIC:
+                    case self::MEDIAN:
+                        $data[$key] = 0;
+                        break;
+                }
+                continue;
+            }
+
             $stats = new Stats($data[$key]);
             switch ($operation) {
                 default:
