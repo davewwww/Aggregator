@@ -6,6 +6,7 @@ use Dwo\Aggregator\Aggregator;
 use Dwo\Aggregator\Collector\Collector;
 use Dwo\Aggregator\Collector\IdCollector;
 use Dwo\Aggregator\Operator;
+use Dwo\Tracedump\Tracedump;
 
 class AggregatorTest extends \PHPUnit_Framework_TestCase
 {
